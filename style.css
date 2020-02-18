@@ -1,6 +1,14 @@
 body {
   margin: 0px;
-   
+  background-color: black;
+  display: grid;
+  grid-template-areas: 
+  "header header header "
+  "results figure figure"
+  "results canvas canvas"
+  "results article article"
+  "footer footer footer"
+  ;
 }
 
 header {
@@ -8,6 +16,7 @@ header {
   display: flex;
   text-align: center;
   height: 100px;
+  grid-area: header;
 }
 
 header h1 {
@@ -18,6 +27,7 @@ header h1 {
  
  .results {
    float: left;
+   grid-area: results;
  }
 
 
@@ -25,6 +35,7 @@ figure {
    display: inline-block;
    height: 300px;
    width: 25%;
+   grid-area: figure;
  }
 
  figure img {
@@ -32,3 +43,14 @@ figure {
    height: 100%;
  }
  
+article {
+  grid-area: article;
+}
+
+footer {
+  grid-area: footer;
+}
+
+canvas {
+  grid-area: canvas;
+}
