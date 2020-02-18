@@ -75,7 +75,7 @@ function renderImg (){ //does not record render
   imgArr[img2].timesRendered++
   imgArr[img3].timesRendered++
 }
-renderImg()
+renderImg() // renders the images
 
 // Once the users ‘clicks’ a product, generate three new products for the user to pick from.
 function imgClicking(event){
@@ -87,10 +87,11 @@ function imgClicking(event){
       if(imgId === imgArr[i].name){
         imgArr[i].timesClicked++
         ttlClicks++
+        // consider adding an arr to hold max clicks, pushing image clicked to arr for conditional statement to check previous img so it does not render on the next iteration.
     }
     i++
   } renderImg();
-} else{
+} else{ // display results and removes event listeners.
   alert('thanks for voting');
   results(imgArr);
   getPos1.removeEventListener('click', imgClicking)
@@ -127,11 +128,3 @@ function results(arr){
     i++
   }
 }
-
-// 4. As a user, I would like to view a report of results after all rounds of voting have concluded so that I can evaluate which products were the most popular.
-
-// Create a property attached to the constructor function itself that keeps track of all the products that are currently being considered.
-
-// After voting rounds have been completed, remove the event listeners on the product.
-
-// Display the list of all the products followed by the votes received and number of times seen for each. Example: Banana Slicer had 3 votes and was shown 5 times
