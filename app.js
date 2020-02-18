@@ -5,6 +5,7 @@
 // global variables
 var imgArr = [];
 var ttlClicks = 0;
+var rounds = 5;
 var getPos1 = document.getElementById('first-img')
 var getPos2 = document.getElementById('second-img')
 var getPos3 = document.getElementById('third-img')
@@ -53,11 +54,15 @@ function renderImg (){ //does not record render
   
   while(i < imgArr.length){
     var img1 = randomImgs();
-    if(img1 === imgArr[i].name){ // this might be in the ball park
-      imgArr[i].timesRendered++
-    }
     var img2 = randomImgs();
     var img3 = randomImgs();
+    while(img1 === img2 || 
+       img1 === img3 ||
+       img2 === img3){
+      var img1 = randomImgs();
+      var img2 = randomImgs();
+      var img3 = randomImgs();
+    }
     getPos1.setAttribute('src', imgArr[img1].image) // uses random image generator and assigns it to the src of id getPos1 in HTML
     getPos1.setAttribute('alt', imgArr[img1].name)
     getPos2.setAttribute('src', imgArr[img2].image) // uses random image generator and assigns it to the src of id getPos2 in HTML
@@ -66,48 +71,59 @@ function renderImg (){ //does not record render
     getPos3.setAttribute('alt', imgArr[img3].name)
     i++
   }
+  imgArr[img1].timesRendered++
+  imgArr[img2].timesRendered++
+  imgArr[img3].timesRendered++
 }
 renderImg()
 
 function imgClicking(event){
   var imgId = event.target.getAttribute('alt');
   var i = 0;
-  while(i < imgArr.length){
-    if(imgId === imgArr[i].name){
-      imgArr[i].timesClicked++
-  }
-  i++
- }
-  renderImg();
   
-  console.log(imgId);
+  if(ttlClicks < rounds){
+    while(i < imgArr.length){
+      if(imgId === imgArr[i].name){
+        imgArr[i].timesClicked++
+        ttlClicks++
+    }
+    i++
+  } renderImg();
+} else{
+  alert('thanks for voting');
+  results(imgArr);
+}
+ console.log(imgId);
+ console.log(ttlClicks);
+ 
 }
 
-
+// when the img is clicked it triggers event
 getPos1.addEventListener('click', imgClicking);
 getPos2.addEventListener('click', imgClicking);
 getPos3.addEventListener('click', imgClicking);
-// Attach an event listener to the section of the HTML page where the images are going to be displayed.
+
 
 // Once the users ‘clicks’ a product, generate three new products for the user to pick from.
+imgConst.prototype.display = function () {
+  var list = document.getElementById('itemVotes');
+  var uList = document.createElement('ul');
+  list.appendChild(uList);
+  var listItem = document.createElement('li')
+  listItem.textContent = `${this.name} has gotten ${this.timesClicked} and was seen ${this.timesRendered}`;
+  uList.appendChild(listItem);
+}
 
 
-
-// 2. As a user, I would like to track the selections made by viewers so that I can determine which products to keep for the catalog.
-
-// In the constructor function define a property to hold the number of times a product has been clicked.
-
-// After every selection by the viewer, update the newly added property to reflect if it was clicked.
-
-
-
-// 3. As a user, I would like to control the number of rounds a user is presented with so that I can control the voting session duration.
-
-// By default, the user should be presented with 25 rounds of voting before ending the session.
-
-//Keep the number of rounds in a variable to allow the number to be easily changed for debugging and testing purposes.
-
-
+function results(arr){
+  var i = 0;
+  console.log(arr.length);
+  while(i < arr.length){
+    console.log(arr[i]);
+    arr[i].display();
+    i++
+  }
+}
 
 // 4. As a user, I would like to view a report of results after all rounds of voting have concluded so that I can evaluate which products were the most popular.
 
