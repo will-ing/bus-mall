@@ -93,6 +93,9 @@ function imgClicking(event){
 } else{
   alert('thanks for voting');
   results(imgArr);
+  getPos1.removeEventListener('click', imgClicking)
+  getPos2.removeEventListener('click', imgClicking)
+  getPos3.removeEventListener('click', imgClicking)
 }
  console.log(imgId);
  console.log(ttlClicks);
