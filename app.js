@@ -5,7 +5,7 @@
 // global variables
 var imgArr = [];
 var ttlClicks = 0;
-var rounds = 5;
+var rounds = 20;
 var getPos1 = document.getElementById('first-img')
 var getPos2 = document.getElementById('second-img')
 var getPos3 = document.getElementById('third-img')
@@ -48,46 +48,67 @@ function randomImgs(){
 }
 console.log(randomImgs()); // works
 
-// renders the img's
-function renderImg (){ //does not record render
-  var i = 0;
-  
-  while(i < imgArr.length){
+function validate(img1, img2, img3){
+  var testArr = [];
+  testArr.push(img1)
+  testArr.push(img2)
+  testArr.push(img3)
+  while(testArr.includes(img1, img2, img3)){
     var img1 = randomImgs();
     var img2 = randomImgs();
     var img3 = randomImgs();
-    while(img1 === img2 || 
-       img1 === img3 ||
-       img2 === img3){
-      var img1 = randomImgs();
-      var img2 = randomImgs();
-      var img3 = randomImgs();
-    }
-    getPos1.setAttribute('src', imgArr[img1].image) // uses random image generator and assigns it to the src of id getPos1 in HTML
-    getPos1.setAttribute('alt', imgArr[img1].name)
-    getPos2.setAttribute('src', imgArr[img2].image) // uses random image generator and assigns it to the src of id getPos2 in HTML
-    getPos2.setAttribute('alt', imgArr[img2].name)
-    getPos3.setAttribute('src', imgArr[img3].image) // uses random image generator and assigns it to the src of id getPos3 in HTML
-    getPos3.setAttribute('alt', imgArr[img3].name)
-    i++
   }
+    
+}
+
+// renders the img's and makes sure there are no duplicates
+  // Check is being rendered
+  // Check what random values we've generated
+function renderImg (){ //does not record render
+ 
+  var testArr = [getPos1.alt, getPos2.alt, getPos3.alt];
+  var img1 = randomImgs();
+  var img2 = randomImgs();
+  var img3 = randomImgs();
+  
+  while(
+      testArr.includes(imgArr[img1].name) ||
+      testArr.includes(imgArr[img2].name) ||
+      testArr.includes(imgArr[img3].name) ||
+      img1 === img2 ||   
+      img1 === img3 ||
+      img2 === img3 
+  ) {
+    console.log("test", img1, img2, img3);
+    var img1 = randomImgs();
+    var img2 = randomImgs();
+    var img3 = randomImgs();
+  }
+  console.log(imgArr[img1].name, imgArr[img2].name, imgArr[img3].name, testArr);
+  getPos1.setAttribute('src', imgArr[img1].image) // uses random image generator and assigns it to the src of id getPos1 in HTML
+  getPos1.setAttribute('alt', imgArr[img1].name)
+  getPos2.setAttribute('src', imgArr[img2].image) // uses random image generator and assigns it to the src of id getPos2 in HTML
+  getPos2.setAttribute('alt', imgArr[img2].name)
+  getPos3.setAttribute('src', imgArr[img3].image) // uses random image generator and assigns it to the src of id getPos3 in HTML
+  getPos3.setAttribute('alt', imgArr[img3].name)
+
   imgArr[img1].timesRendered++
   imgArr[img2].timesRendered++
   imgArr[img3].timesRendered++
-}
+} 
 renderImg() // renders the images
 
 // Once the users ‘clicks’ a product, generate three new products for the user to pick from.
 function imgClicking(event){
   var imgId = event.target.getAttribute('alt');
   var i = 0;
-  
+
   if(ttlClicks < rounds){
     while(i < imgArr.length){
       if(imgId === imgArr[i].name){
         imgArr[i].timesClicked++
         ttlClicks++
-        // consider adding an arr to hold max clicks, pushing image clicked to arr for conditional statement to check previous img so it does not render on the next iteration.
+        // consider adding an arr to hold max clicks, 
         }
     i++
     } renderImg();
@@ -128,18 +149,67 @@ function results(arr){
   }
 }
 
+function getLabels(arr){
+  var i = 0;
+  var charArr = [];
+  while(i < arr.length){
+    charArr.push(arr[i].name)
+    i++
+  } 
+  console.log('HELLO',charArr)
+  return charArr
+}
 
-//1. As a marketeer, I want to prevent users from seeing the same image in two subsequent iterations, so that they are not biased.
+function getClicks(arr){
+  var i = 0;
+  var charArr = [];
+  while(i < arr.length){
+    charArr.push(arr[i].timesClicked)
+    i++
+  } 
+  console.log('HELLO',charArr)
+  return charArr
+}
+/////////////////// Chart settings ///////////////////////
 
-    // Update your algorithm to randomly generate three unique product images from the images directory.
-    
-    // Update your algorithm so that new products are generated, confirm that these products are not duplicates from the immediate previous set.
+var ctx = document.getElementById('myChart').getContext('2d');
 
-
-
-//////// my chart ///////
-
-
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: getLabels(imgArr), // need a function to generate array of ea img
+        datasets: [{
+            label: '# of Votes',
+            data: [getClicks(imgArr)], 
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
 
 
 
