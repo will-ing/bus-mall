@@ -77,6 +77,7 @@ function renderImg (){ //does not record render
 }
 renderImg()
 
+// Once the users ‘clicks’ a product, generate three new products for the user to pick from.
 function imgClicking(event){
   var imgId = event.target.getAttribute('alt');
   var i = 0;
@@ -103,8 +104,7 @@ getPos1.addEventListener('click', imgClicking);
 getPos2.addEventListener('click', imgClicking);
 getPos3.addEventListener('click', imgClicking);
 
-
-// Once the users ‘clicks’ a product, generate three new products for the user to pick from.
+// uses the DOM to display a string with total clicks and renders
 imgConst.prototype.display = function () {
   var list = document.getElementById('itemVotes');
   var uList = document.createElement('ul');
@@ -114,7 +114,7 @@ imgConst.prototype.display = function () {
   uList.appendChild(listItem);
 }
 
-
+// loops through and displays for each image
 function results(arr){
   var i = 0;
   console.log(arr.length);
