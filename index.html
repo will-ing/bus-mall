@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus-Mall</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 </head>
 <body>
   <header>
@@ -12,6 +13,11 @@
     <h1>Bus Mall app</h1>
   </header>
   <main>
+    <section class="results">
+      <ul id="itemVotes">
+
+      </ul>
+    </section>
     <section class="images">
       <figure>
         <img id="first-img" src="" alt="">
@@ -23,11 +29,10 @@
         <img id="third-img" src="" alt="">
       </figure>
     </section>
-    <section class="results">
-      <ul id="itemVotes">
-
-      </ul>
+    <section>
+      <canvas id="myChart" width="900px" height="700px"></canvas>
     </section>
+    
     <article>
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
     </article>
