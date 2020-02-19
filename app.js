@@ -5,7 +5,7 @@
 // global variables
 var imgArr = [];
 var ttlClicks = 0;
-var rounds = 20;
+var rounds = 25;
 var getPos1 = document.getElementById('first-img')
 var getPos2 = document.getElementById('second-img')
 var getPos3 = document.getElementById('third-img')
@@ -62,8 +62,8 @@ function validate(img1, img2, img3){
 }
 
 // renders the img's and makes sure there are no duplicates
-  // Check is being rendered
-  // Check what random values we've generated
+// Check that it is being rendered
+// Check what random values we've generated
 function renderImg (){ //does not record render
  
   var testArr = [getPos1.alt, getPos2.alt, getPos3.alt];
@@ -79,12 +79,12 @@ function renderImg (){ //does not record render
       img1 === img3 ||
       img2 === img3 
   ) {
-    console.log("test", img1, img2, img3);
+    // console.log("test", img1, img2, img3);
     var img1 = randomImgs();
     var img2 = randomImgs();
     var img3 = randomImgs();
   }
-  console.log(imgArr[img1].name, imgArr[img2].name, imgArr[img3].name, testArr);
+  // console.log(imgArr[img1].name, imgArr[img2].name, imgArr[img3].name, testArr);
   getPos1.setAttribute('src', imgArr[img1].image) // uses random image generator and assigns it to the src of id getPos1 in HTML
   getPos1.setAttribute('alt', imgArr[img1].name)
   getPos2.setAttribute('src', imgArr[img2].image) // uses random image generator and assigns it to the src of id getPos2 in HTML
@@ -114,7 +114,8 @@ function imgClicking(event){
     } renderImg();
     } else{ // display results and removes event listeners.
   alert('thanks for voting');
-  results(imgArr);
+  results(imgArr); // displays results in a list
+  newChart(); // generates chart
   getPos1.removeEventListener('click', imgClicking)
   getPos2.removeEventListener('click', imgClicking)
   getPos3.removeEventListener('click', imgClicking)
@@ -148,75 +149,73 @@ function results(arr){
     i++
   }
 }
-
-function getLabels(arr){
+// gets the info you want to put on a chart.
+function getInfo(arr, ins){
   var i = 0;
   var charArr = [];
   while(i < arr.length){
-    charArr.push(arr[i].name)
+    charArr.push(arr[i][ins])
     i++
   } 
-  console.log('HELLO',charArr)
-  return charArr
+  console.log('click',charArr);
+  return charArr;
+}
+// gets click color for chart
+function getColor1(arr){
+  var i = 0;
+  var color1 = [];
+  
+  while(i < arr.length){
+    color1.push('green');
+    i++;
+  } 
+  console.log('color',color1);
+  return color1
+}
+// gets render color for chart
+function getColor2(arr){
+  var i = 0;
+  var color2 = [];
+  
+  while(i < arr.length){
+    color2.push('blue');
+    i++;
+  } 
+  console.log('color',color2);
+  return color2
 }
 
-function getClicks(arr){
-  var i = 0;
-  var charArr = [];
-  while(i < arr.length){
-    charArr.push(arr[i].timesClicked)
-    i++
-  } 
-  console.log('HELLO',charArr)
-  return charArr
-}
 /////////////////// Chart settings ///////////////////////
+function newChart(){
+  var ctx = document.getElementById('myChart').getContext('2d');
 
-var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: getInfo(imgArr, 'name'), // need a function to generate array of ea img
+          datasets: [{
+              label: 'number of clicks',
+              data: getInfo(imgArr, 'timesClicked'), 
+              backgroundColor: getColor1(imgArr),
+              borderColor: getColor1(imgArr)
+                  ,
+              borderWidth: 1
+          },
+          {label: 'times rendered',
+          data: getInfo(imgArr, 'timesRendered'), 
+          backgroundColor: getColor2(imgArr),
+          borderColor: getColor2(imgArr),
+          borderWidth: 1}]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+}
 
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: getLabels(imgArr), // need a function to generate array of ea img
-        datasets: [{
-            label: '# of Votes',
-            data: [getClicks(imgArr)], 
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-
-
-
-// 3. As a marketing manager, I would like a visual representation of how many times a product was clicked so that I can visually analyze the results.
-
-    // Using ChartJS (imported from CDN), display the vote totals and the number of times a product was viewed in a bar chart format. (hint: don’t forget about the <canvas> tags)
-
-    // Place the bar chart in the section located beneath your three product images
-
-    // The bar charts should only appear after all voting data has been collected.
