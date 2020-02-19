@@ -41,18 +41,6 @@ function randomImgs(){
   return Math.floor(Math.random() * imgArr.length)
 }
 
-function validate(img1, img2, img3){
-  var testArr = [];
-  testArr.push(img1)
-  testArr.push(img2)
-  testArr.push(img3)
-  while(testArr.includes(img1, img2, img3)){
-    var img1 = randomImgs();
-    var img2 = randomImgs();
-    var img3 = randomImgs();
-  }
-}
-
 // renders the imgs and makes sure there are no duplicates
 // Check that it is being rendered
 // Check what random values we've generated
@@ -88,7 +76,6 @@ function renderImg (){
   imgArr[img2].timesRendered++
   imgArr[img3].timesRendered++
 } 
-
 
 // Once the users ‘clicks’ a product, generate three new products for the user to pick from.
 function imgClicking(event){
