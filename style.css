@@ -1,13 +1,14 @@
 body {
   margin: 0px;
-  background-color: white;
+  background-color: black;
+  color: aliceblue;
   display: grid;
   grid-template-areas: 
-  "header header header "
-  "results figure figure"
-  "results canvas canvas"
-  "results article article"
-  "footer footer footer"
+  "header header header header"
+  "results figure figure figure"
+  "results canvas canvas canvas"
+  "results article article article"
+  "footer footer footer footer"
   ;
 }
 
@@ -51,6 +52,7 @@ footer {
   grid-area: footer;
 }
 
-canvas {
+canvas {  
   grid-area: canvas;
 }
+

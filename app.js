@@ -1,6 +1,4 @@
-
-
-// 1. As a user, I would like to display three unique products by chance so that the viewers can pick a favorite.
+'strict'
 
 // global variables
 var imgArr = [];
@@ -38,15 +36,10 @@ new imgConst('usb', './images/usb.gif')
 new imgConst('water-can', './images/water-can.jpg')
 new imgConst('wine-glass', './images/wine-glass.jpg')
 
-console.log(imgArr) // works
-
 // Create an algorithm that will randomly generate three unique product images from the images directory and display them side-by-side-by-side in the browser window.
-function randomImgs(){
-  var randImg = Math.floor(Math.random() * imgArr.length);
-  
-  return(randImg)
+function randomImgs(){ 
+  return Math.floor(Math.random() * imgArr.length)
 }
-console.log(randomImgs()); // works
 
 function validate(img1, img2, img3){
   var testArr = [];
@@ -58,13 +51,12 @@ function validate(img1, img2, img3){
     var img2 = randomImgs();
     var img3 = randomImgs();
   }
-    
 }
 
-// renders the img's and makes sure there are no duplicates
+// renders the imgs and makes sure there are no duplicates
 // Check that it is being rendered
 // Check what random values we've generated
-function renderImg (){ //does not record render
+function renderImg (){
  
   var testArr = [getPos1.alt, getPos2.alt, getPos3.alt];
   var img1 = randomImgs();
@@ -96,7 +88,7 @@ function renderImg (){ //does not record render
   imgArr[img2].timesRendered++
   imgArr[img3].timesRendered++
 } 
-renderImg() // renders the images
+
 
 // Once the users ‘clicks’ a product, generate three new products for the user to pick from.
 function imgClicking(event){
@@ -118,10 +110,7 @@ function imgClicking(event){
   newChart(); // generates chart
   getPos1.removeEventListener('click', imgClicking)
   getPos2.removeEventListener('click', imgClicking)
-  getPos3.removeEventListener('click', imgClicking)
-}
- console.log(imgId);
- console.log(ttlClicks);
+  getPos3.removeEventListener('click', imgClicking)}
 }
 
 // when the img is clicked it triggers event
@@ -129,7 +118,7 @@ getPos1.addEventListener('click', imgClicking);
 getPos2.addEventListener('click', imgClicking);
 getPos3.addEventListener('click', imgClicking);
 
-// uses the DOM to display a string with total clicks and renders
+// uses the DOM to display a string with total clicks and renders as a list
 imgConst.prototype.display = function () {
   var list = document.getElementById('itemVotes');
   var uList = document.createElement('ul');
@@ -142,48 +131,35 @@ imgConst.prototype.display = function () {
 // loops through and displays for each image
 function results(arr){
   var i = 0;
-  console.log(arr.length);
+
   while(i < arr.length){
-    console.log(arr[i]);
     arr[i].display();
     i++
   }
 }
 // gets the info you want to put on a chart.
-function getInfo(arr, ins){
+function getInfo(arr, property){
   var i = 0;
   var charArr = [];
   while(i < arr.length){
-    charArr.push(arr[i][ins])
+    charArr.push(arr[i][property])
     i++
   } 
-  console.log('click',charArr);
   return charArr;
 }
-// gets click color for chart
-function getColor1(arr){
+// get the bar colors for chart. the color argument has to be a string.
+function getColor(arr, color){
   var i = 0;
-  var color1 = [];
+  var colorArr = [];
   
   while(i < arr.length){
-    color1.push('green');
+    colorArr.push(color);
     i++;
   } 
-  console.log('color',color1);
-  return color1
+  return colorArr
 }
-// gets render color for chart
-function getColor2(arr){
-  var i = 0;
-  var color2 = [];
-  
-  while(i < arr.length){
-    color2.push('blue');
-    i++;
-  } 
-  console.log('color',color2);
-  return color2
-}
+
+renderImg() // renders the images
 
 /////////////////// Chart settings ///////////////////////
 function newChart(){
@@ -192,19 +168,19 @@ function newChart(){
   var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: getInfo(imgArr, 'name'), // need a function to generate array of ea img
+          labels: getInfo(imgArr, 'name'),
           datasets: [{
               label: 'number of clicks',
               data: getInfo(imgArr, 'timesClicked'), 
-              backgroundColor: getColor1(imgArr),
-              borderColor: getColor1(imgArr)
+              backgroundColor: getColor(imgArr, "blue"),
+              borderColor: getColor(imgArr, "blue")
                   ,
               borderWidth: 1
           },
           {label: 'times rendered',
           data: getInfo(imgArr, 'timesRendered'), 
-          backgroundColor: getColor2(imgArr),
-          borderColor: getColor2(imgArr),
+          backgroundColor: getColor(imgArr, 'purple'),
+          borderColor: getColor(imgArr, "purple"),
           borderWidth: 1}]
       },
       options: {
