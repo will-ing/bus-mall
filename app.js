@@ -1,41 +1,63 @@
-'strict'
+'use strict';
 
 // global variables
-var imgArr = [];
+var imgArr = fetchingData('productData') || [];
 var ttlClicks = 0;
-var rounds = 25;
+var rounds = 5;
 var getPos1 = document.getElementById('first-img')
 var getPos2 = document.getElementById('second-img')
 var getPos3 = document.getElementById('third-img')
-
+console.log(localStorage);
 // constructor function for images
 function imgConst(name, imgPath){
   this.name = name;
   this.image = imgPath;
   this.timesClicked = 0;
   this.timesRendered = 0;
-  imgArr.push(this);
+  imgArr.push(this);  
 }
-// constructing img objects and storing in imgArr
-// new imgConst('bag', './images/bag.jpg')
-new imgConst('banana', './images/banana.jpg')
-new imgConst('bathroom', './images/bathroom.jpg')
-new imgConst('boots', './images/boots.jpg')
-new imgConst('breakfast', './images/breakfast.jpg')
-new imgConst('bubblegum', './images/bubblegum.jpg')
-new imgConst('chair', './images/chair.jpg')
-new imgConst('cthulhu', './images/cthulhu.jpg')
-new imgConst('dog-duck', './images/dog-duck.jpg')
-new imgConst('pet-sweep', './images/pet-sweep.jpg')
-new imgConst('scissors', './images/scissors.jpg')
-new imgConst('shark', './images/shark.jpg')
-new imgConst('sweep', './images/sweep.png')
-new imgConst('tauntaun', './images/tauntaun.jpg')
-new imgConst('unicorn', './images/unicorn.jpg')
-new imgConst('usb', './images/usb.gif')
-new imgConst('water-can', './images/water-can.jpg')
-new imgConst('wine-glass', './images/wine-glass.jpg')
 
+function reDue() {
+  var i = 0;
+
+  while(i < imgArr){
+    new imgConst(imgArr[i].name, imgArr[i].image);
+    imgArr[i].timesClicked = localStorage.timesClicked;
+    imgArr[i].timesRendered = localStorage.timesRendered;
+    i++;
+    
+  }
+  console.log('WHAT ARE YOU?', imgArr[i].name)
+}
+
+
+console.log(imgArr)
+  if(imgArr.length !== 0){
+    // constructing img objects and storing in imgArr
+    reDue();
+    console.log('construct from objects', imgArr);
+  }else{
+  new imgConst('banana', './images/banana.jpg');
+  new imgConst('bathroom', './images/bathroom.jpg');
+  new imgConst('boots', './images/boots.jpg');
+  new imgConst('breakfast', './images/breakfast.jpg');
+  new imgConst('bubblegum', './images/bubblegum.jpg');
+  new imgConst('chair', './images/chair.jpg');
+  new imgConst('cthulhu', './images/cthulhu.jpg');
+  new imgConst('dog-duck', './images/dog-duck.jpg');
+  new imgConst('pet-sweep', './images/pet-sweep.jpg');
+  new imgConst('scissors', './images/scissors.jpg');
+  new imgConst('shark', './images/shark.jpg');
+  new imgConst('sweep', './images/sweep.png');
+  new imgConst('tauntaun', './images/tauntaun.jpg');
+  new imgConst('unicorn', './images/unicorn.jpg');
+  new imgConst('usb', './images/usb.gif');
+  new imgConst('water-can', './images/water-can.jpg');
+  new imgConst('wine-glass', './images/wine-glass.jpg');
+  }
+
+console.log(imgArr)
+// updateNumbers(imgArr, timesClicked, timesRendered);
 // Create an algorithm that will randomly generate three unique product images from the images directory and display them side-by-side-by-side in the browser window.
 function randomImgs(){ 
   return Math.floor(Math.random() * imgArr.length)
@@ -85,19 +107,23 @@ function imgClicking(event){
   if(ttlClicks < rounds){
     while(i < imgArr.length){
       if(imgId === imgArr[i].name){
-        imgArr[i].timesClicked++
+        imgArr[i].timesClicked++;
         ttlClicks++
         // consider adding an arr to hold max clicks, 
         }
-    i++
-    } renderImg();
+        i++;
+    } 
+    renderImg();
     } else{ // display results and removes event listeners.
   alert('thanks for voting');
   results(imgArr); // displays results in a list
   newChart(); // generates chart
   getPos1.removeEventListener('click', imgClicking)
   getPos2.removeEventListener('click', imgClicking)
-  getPos3.removeEventListener('click', imgClicking)}
+  getPos3.removeEventListener('click', imgClicking)
+  saveLocal(imgArr);
+  }
+  
 }
 
 // when the img is clicked it triggers event
@@ -115,6 +141,7 @@ imgConst.prototype.display = function () {
   uList.appendChild(listItem);
 }
 
+
 // loops through and displays for each image
 function results(arr){
   var i = 0;
@@ -124,7 +151,7 @@ function results(arr){
     i++
   }
 }
-// gets the info you want to put on a chart.
+// gets the info you want to put on a chart and sets data
 function getInfo(arr, property){
   var i = 0;
   var charArr = [];
@@ -144,6 +171,27 @@ function getColor(arr, color){
     i++;
   } 
   return colorArr
+}
+////////////// Local Storage functions /////////////////
+// 1. As a user, I would like my data to persistently track totals between page refreshes, so that I can keep track of the aggregate number of votes.
+
+    // Implement local storage into your current application
+
+    // Make sure the data persists across both browser refreshes and resets
+
+function settingData (key, data){
+  var stringData = JSON.stringify(data);
+
+  localStorage.setItem(key, stringData);
+}
+
+function fetchingData(key){
+  var data = localStorage.getItem(key);
+  return JSON.parse(data)
+}
+
+function saveLocal(arr){
+  settingData('productData', arr); 
 }
 
 renderImg() // renders the images
