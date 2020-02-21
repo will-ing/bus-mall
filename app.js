@@ -22,8 +22,8 @@ function reDue() {
 
   while(i < imgArr){
     var persist = new ImgConstr(imgArr[i].name, imgArr[i].image)
-    imgArr[i].timesClicked = localStorage.timesClicked;
-    imgArr[i].timesRendered = localStorage.timesRendered;
+    persist.timesClicked = localStorage.timesClicked;
+    persist.timesRendered = localStorage.timesRendered;
     i++;
     }
     console.log('WHAT ARE YOU?', persist)
