@@ -4,7 +4,7 @@
 // global variables
 var imgArr = [];
 var ttlClicks = 0;
-var rounds = 5;
+var rounds = 25;
 var getPos1 = document.getElementById('first-img')
 var getPos2 = document.getElementById('second-img')
 var getPos3 = document.getElementById('third-img')
