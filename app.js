@@ -16,7 +16,7 @@ function ImgConstr(name, imgPath){
   this.timesRendered = 0;
   imgArr.push(this);  
 }
-
+// takes from local storage after first iteration
 function reDue() {
   var i = 0;
   var localData = fetchingData('productData');
@@ -27,16 +27,13 @@ function reDue() {
     persist.timesRendered = localStorage.timesRendered;
     i++;
   }
-  console.log('WHAT ARE YOU?', persist);
   return (persist);
     
 }
     
-console.log(imgArr)
   if(imgArr.length !== 0){  
     // constructing img objects and storing in imgArr
     reDue();
-    console.log('construct from objects', imgArr);
   }else{
   new ImgConstr('banana', './images/banana.jpg');
   new ImgConstr('bathroom', './images/bathroom.jpg');
@@ -57,8 +54,7 @@ console.log(imgArr)
   new ImgConstr('wine-glass', './images/wine-glass.jpg');
   }
 
-console.log(imgArr)
-// updateNumbers(imgArr, timesClicked, timesRendered);
+
 // Create an algorithm that will randomly generate three unique product images from the images directory and display them side-by-side-by-side in the browser window.
 function randomImgs(){ 
   return Math.floor(Math.random() * imgArr.length)
@@ -82,12 +78,10 @@ function renderImg (){
       img1 === img3 ||
       img2 === img3 
   ) {
-    // console.log("test", img1, img2, img3);
     var img1 = randomImgs();
     var img2 = randomImgs();
     var img3 = randomImgs();
   }
-  // console.log(imgArr[img1].name, imgArr[img2].name, imgArr[img3].name, testArr);
   getPos1.setAttribute('src', imgArr[img1].image) // uses random image generator and assigns it to the src of id getPos1 in HTML
   getPos1.setAttribute('alt', imgArr[img1].name)
   getPos2.setAttribute('src', imgArr[img2].image) // uses random image generator and assigns it to the src of id getPos2 in HTML
