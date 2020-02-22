@@ -1,63 +1,60 @@
 'use strict';
 
+
 // global variables
-var imgArr = fetchingData('productData') || [];
+var imgArr = [];
 var ttlClicks = 0;
-var rounds = 5;
+var rounds = 25;
 var getPos1 = document.getElementById('first-img')
 var getPos2 = document.getElementById('second-img')
 var getPos3 = document.getElementById('third-img')
-console.log(localStorage);
 // constructor function for images
-function imgConst(name, imgPath){
+function ImgConstr(name, imgPath){
   this.name = name;
   this.image = imgPath;
   this.timesClicked = 0;
   this.timesRendered = 0;
   imgArr.push(this);  
 }
-
+// takes from local storage after first iteration
 function reDue() {
   var i = 0;
+  var localData = fetchingData('productData');
 
-  while(i < imgArr){
-    new imgConst(imgArr[i].name, imgArr[i].image);
-    imgArr[i].timesClicked = localStorage.timesClicked;
-    imgArr[i].timesRendered = localStorage.timesRendered;
+  while(i < localData.length){
+    var persist = new ImgConstr(imgArr[i].name, imgArr[i].image)
+    persist.timesClicked = localStorage.timesClicked;
+    persist.timesRendered = localStorage.timesRendered;
     i++;
-    
   }
-  console.log('WHAT ARE YOU?', imgArr[i].name)
+  return (persist);
+    
 }
-
-
-console.log(imgArr)
-  if(imgArr.length !== 0){
+    
+  if(imgArr.length !== 0){  
     // constructing img objects and storing in imgArr
     reDue();
-    console.log('construct from objects', imgArr);
   }else{
-  new imgConst('banana', './images/banana.jpg');
-  new imgConst('bathroom', './images/bathroom.jpg');
-  new imgConst('boots', './images/boots.jpg');
-  new imgConst('breakfast', './images/breakfast.jpg');
-  new imgConst('bubblegum', './images/bubblegum.jpg');
-  new imgConst('chair', './images/chair.jpg');
-  new imgConst('cthulhu', './images/cthulhu.jpg');
-  new imgConst('dog-duck', './images/dog-duck.jpg');
-  new imgConst('pet-sweep', './images/pet-sweep.jpg');
-  new imgConst('scissors', './images/scissors.jpg');
-  new imgConst('shark', './images/shark.jpg');
-  new imgConst('sweep', './images/sweep.png');
-  new imgConst('tauntaun', './images/tauntaun.jpg');
-  new imgConst('unicorn', './images/unicorn.jpg');
-  new imgConst('usb', './images/usb.gif');
-  new imgConst('water-can', './images/water-can.jpg');
-  new imgConst('wine-glass', './images/wine-glass.jpg');
+  new ImgConstr('banana', './images/banana.jpg');
+  new ImgConstr('bathroom', './images/bathroom.jpg');
+  new ImgConstr('boots', './images/boots.jpg');
+  new ImgConstr('breakfast', './images/breakfast.jpg');
+  new ImgConstr('bubblegum', './images/bubblegum.jpg');
+  new ImgConstr('chair', './images/chair.jpg');
+  new ImgConstr('cthulhu', './images/cthulhu.jpg');
+  new ImgConstr('dog-duck', './images/dog-duck.jpg');
+  new ImgConstr('pet-sweep', './images/pet-sweep.jpg');
+  new ImgConstr('scissors', './images/scissors.jpg');
+  new ImgConstr('shark', './images/shark.jpg');
+  new ImgConstr('sweep', './images/sweep.png');
+  new ImgConstr('tauntaun', './images/tauntaun.jpg');
+  new ImgConstr('unicorn', './images/unicorn.jpg');
+  new ImgConstr('usb', './images/usb.gif');
+  new ImgConstr('water-can', './images/water-can.jpg');
+  new ImgConstr('wine-glass', './images/wine-glass.jpg');
   }
 
-console.log(imgArr)
-// updateNumbers(imgArr, timesClicked, timesRendered);
+
 // Create an algorithm that will randomly generate three unique product images from the images directory and display them side-by-side-by-side in the browser window.
 function randomImgs(){ 
   return Math.floor(Math.random() * imgArr.length)
@@ -81,12 +78,10 @@ function renderImg (){
       img1 === img3 ||
       img2 === img3 
   ) {
-    // console.log("test", img1, img2, img3);
     var img1 = randomImgs();
     var img2 = randomImgs();
     var img3 = randomImgs();
   }
-  // console.log(imgArr[img1].name, imgArr[img2].name, imgArr[img3].name, testArr);
   getPos1.setAttribute('src', imgArr[img1].image) // uses random image generator and assigns it to the src of id getPos1 in HTML
   getPos1.setAttribute('alt', imgArr[img1].name)
   getPos2.setAttribute('src', imgArr[img2].image) // uses random image generator and assigns it to the src of id getPos2 in HTML
@@ -121,7 +116,7 @@ function imgClicking(event){
   getPos1.removeEventListener('click', imgClicking)
   getPos2.removeEventListener('click', imgClicking)
   getPos3.removeEventListener('click', imgClicking)
-  saveLocal(imgArr);
+  saveData('productData', imgArr);
   }
   
 }
@@ -132,7 +127,7 @@ getPos2.addEventListener('click', imgClicking);
 getPos3.addEventListener('click', imgClicking);
 
 // uses the DOM to display a string with total clicks and renders as a list
-imgConst.prototype.display = function () {
+ImgConstr.prototype.display = function () {
   var list = document.getElementById('itemVotes');
   var uList = document.createElement('ul');
   list.appendChild(uList);
@@ -173,25 +168,14 @@ function getColor(arr, color){
   return colorArr
 }
 ////////////// Local Storage functions /////////////////
-// 1. As a user, I would like my data to persistently track totals between page refreshes, so that I can keep track of the aggregate number of votes.
 
-    // Implement local storage into your current application
-
-    // Make sure the data persists across both browser refreshes and resets
-
-function settingData (key, data){
-  var stringData = JSON.stringify(data);
-
-  localStorage.setItem(key, stringData);
+function saveData(key, data){
+  localStorage.setItem(key, JSON.stringify(data));
 }
 
 function fetchingData(key){
   var data = localStorage.getItem(key);
   return JSON.parse(data)
-}
-
-function saveLocal(arr){
-  settingData('productData', arr); 
 }
 
 renderImg() // renders the images
