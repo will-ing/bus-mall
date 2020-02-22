@@ -1,13 +1,13 @@
 'use strict';
 
+
 // global variables
-var imgArr = fetchingData('productData') || [];
+var imgArr = [];
 var ttlClicks = 0;
 var rounds = 5;
 var getPos1 = document.getElementById('first-img')
 var getPos2 = document.getElementById('second-img')
 var getPos3 = document.getElementById('third-img')
-console.log(localStorage);
 // constructor function for images
 function ImgConstr(name, imgPath){
   this.name = name;
@@ -19,17 +19,18 @@ function ImgConstr(name, imgPath){
 
 function reDue() {
   var i = 0;
+  var localData = fetchingData('productData');
 
-  while(i < imgArr){
+  while(i < localData.length){
     var persist = new ImgConstr(imgArr[i].name, imgArr[i].image)
     persist.timesClicked = localStorage.timesClicked;
     persist.timesRendered = localStorage.timesRendered;
     i++;
-    }
-    console.log('WHAT ARE YOU?', persist)
-    return (persist)
-    
   }
+  console.log('WHAT ARE YOU?', persist);
+  return (persist);
+    
+}
     
 console.log(imgArr)
   if(imgArr.length !== 0){  
