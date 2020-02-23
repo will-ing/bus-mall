@@ -25,7 +25,6 @@ header h1 {
   margin: 0 auto;
  }
 
- 
  .results {
    float: left;
    grid-area: results;

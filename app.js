@@ -168,11 +168,11 @@ function getColor(arr, color){
   return colorArr
 }
 ////////////// Local Storage functions /////////////////
-
+// saves to local storage
 function saveData(key, data){
   localStorage.setItem(key, JSON.stringify(data));
 }
-
+// retrieves data form local storage
 function fetchingData(key){
   var data = localStorage.getItem(key);
   return JSON.parse(data)
